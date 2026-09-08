@@ -1,24 +1,35 @@
-export default function QueryBar({ query, onQueryChange, onRun, disabled, loading }) {
+
+export default function QueryBar({
+  query,
+  onQueryChange,
+  onRun,
+  disabled,
+  loading,
+}) {
   return (
-    <div>
-      <div className="divider" />
-      <p className="section-label">Query</p>
+    <div className="query-area">
       <textarea
         className="query-input"
-        placeholder={"e.g. What type of land use is shown?\ne.g. Highlight the water body\ne.g. What changed between these images?"}
+        placeholder="Ask anything about your satellite imagery..."
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter" && e.ctrlKey && !disabled) onRun();
+          if (e.key === "Enter" && !e.shiftKey && !disabled) {
+            e.preventDefault();
+            onRun();
+          }
         }}
       />
+
       <button
-        className="btn-run"
+        className="send-button"
         onClick={onRun}
         disabled={disabled || loading}
+        aria-label="Run analysis"
       >
-        {loading ? "Analyzing\u2026" : "Run analysis"}
+        ↑
       </button>
     </div>
   );
 }
+
