@@ -24,9 +24,11 @@ export default function UploadPanel({
   image1,
   image2,
   hasSar,
+  location,
   onImage1,
   onImage2,
   onSarToggle,
+  onLocation,
 }) {
   const ref1 = useRef(null);
   const ref2 = useRef(null);
@@ -36,6 +38,16 @@ export default function UploadPanel({
   const handleFileSelection = (file, onSet) => {
     if (!isValidImageFile(file)) return;
     onSet(file);
+    if (onLocation) onLocation(""); // Clear location if file selected
+  };
+
+  const handleLocationChange = (e) => {
+    const val = e.target.value;
+    onLocation(val);
+    if (val) {
+      onImage1(null);
+      onImage2(null);
+    }
   };
 
   const renderUploadCard = ({
@@ -111,21 +123,34 @@ export default function UploadPanel({
 
   return (
     <div>
-      <p className="section-label">PRIMARY IMAGE</p>
+      <div style={{ marginBottom: 18 }}>
+        <p className="section-label">FETCH FROM GEE (OR USE UPLOAD BELOW)</p>
+        <input 
+          type="text" 
+          value={location || ""} 
+          onChange={handleLocationChange} 
+          placeholder="e.g. Vizag Port" 
+          style={{ width: "100%", padding: "8px", boxSizing: "border-box", borderRadius: "4px", border: "1px solid #ccc" }}
+        />
+      </div>
+      
+      <p className="section-label" style={{ opacity: location ? 0.5 : 1 }}>PRIMARY IMAGE</p>
 
-      {renderUploadCard({
-        image: image1,
-        label: "PRIMARY IMAGE",
-        helperText: "PNG, JPG or TIFF",
-        placeholder: "Upload primary image",
-        refInput: ref1,
-        onSet: onImage1,
-        dragState: drag1,
-        setDragState: setDrag1,
-        inputLabel: "Upload primary image",
-      })}
+      <div style={{ opacity: location ? 0.5 : 1, pointerEvents: location ? 'none' : 'auto' }}>
+        {renderUploadCard({
+          image: image1,
+          label: "PRIMARY IMAGE",
+          helperText: "PNG, JPG or TIFF",
+          placeholder: "Upload primary image",
+          refInput: ref1,
+          onSet: onImage1,
+          dragState: drag1,
+          setDragState: setDrag1,
+          inputLabel: "Upload primary image",
+        })}
+      </div>
 
-      <div style={{ marginTop: 18 }}>
+      <div style={{ marginTop: 18, opacity: location ? 0.5 : 1, pointerEvents: location ? 'none' : 'auto' }}>
         <p className="section-label">COMPARISON IMAGE (OPTIONAL)</p>
 
         {renderUploadCard({
@@ -141,7 +166,7 @@ export default function UploadPanel({
         })}
       </div>
 
-      {image2 && (
+      {image2 && !location && (
         <label className="toggle-row">
           <input
             type="checkbox"
