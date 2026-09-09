@@ -65,11 +65,25 @@ body {
   height: 64px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   padding: 0 28px;
 
   background: #0d1518;
   border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  height: 38px;
+  width: 38px;
+  object-fit: contain;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .app-wordmark {
@@ -77,25 +91,29 @@ body {
   font-size: 20px;
   font-weight: 800;
   letter-spacing: 3px;
+  line-height: 1.1;
 }
 
 .app-wordmark-sub {
+  display: block;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  margin-top: 1px;
 }
 
 /* ================================
-   Three Panel Layout
+   Two Panel Layout (left + center)
    ================================ */
 
 .app-body {
   display: grid;
-  grid-template-columns: 300px 1fr 300px;
+  grid-template-columns: 300px 1fr;
   min-height: calc(100vh - 64px);
 }
 
 /* ================================
-   Left / Right Panels
+   Left Panel
    ================================ */
 
 .panel {
@@ -103,11 +121,6 @@ body {
   background: var(--bg-panel);
   border-right: 1px solid var(--border);
   overflow-y: auto;
-}
-
-.panel:last-child {
-  border-right: none;
-  border-left: 1px solid var(--border);
 }
 
 /* ================================
@@ -120,10 +133,12 @@ body {
   background: #0c1418;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
   padding: 30px;
+  overflow-y: auto;
 }
 
 /* ================================
@@ -387,50 +402,378 @@ body {
    Image Viewer
    ================================ */
 
-.image-viewer {
+.image-viewer-container {
   width: 100%;
-  height: 100%;
-
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 20px;
 }
 
-.image-viewer img {
-  max-width: 50%;
-  max-height: 45vh;
+.image-viewer-container.dual {
+  flex-wrap: wrap;
+}
 
+.image-frame {
+  position: relative;
+  display: inline-block;
+}
+
+.image-frame img {
+  display: block;
+  max-width: 100%;
+  max-height: 55vh;
   object-fit: contain;
-
   border-radius: 6px;
+}
+
+/* Bbox canvas overlays exactly on top of the image */
+.bbox-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.image-label {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
 }
 
 /* ================================
    Empty Image Area
    ================================ */
 
-.image-placeholder {
-  width: min(500px, 90%);
-  min-height: 150px;
-
+.empty-viewer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  border: 1px dashed var(--border);
-  border-radius: var(--radius);
-
+  gap: 12px;
   color: var(--text-muted);
   font-size: 13px;
+  min-height: 200px;
+}
+
+.empty-viewer-icon {
+  font-size: 36px;
+}
+
+/* ================================
+   Result Error
+   ================================ */
+
+.result-error {
+  color: var(--accent-warm);
+  font-size: 13px;
+  margin-top: 16px;
   text-align: center;
 }
 
 /* ================================
-   Right Analysis Panel
+   Result Below Image — wrapper
    ================================ */
 
-.panel-center + .panel {
+.result-below-image {
+  width: 100%;
+  max-width: 900px;
+  margin: 24px auto 0 auto;
+  animation: result-slide-in 0.35s ease-out;
+}
+
+@keyframes result-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   Result Card — GIS / Earth Observation style
+   ================================ */
+
+.rc {
+  background: #12181c;
+  border: 1px solid #263238;
+  border-radius: 4px;
+  padding: 20px 24px;
+}
+
+.rc-header {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #263238;
+}
+
+/* ── Sections ─────────────────────────────────── */
+
+.rc-section {
+  margin-bottom: 16px;
+}
+
+.rc-field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7d82;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+
+.rc-detection {
+  font-size: 15px;
+  font-weight: 600;
   color: var(--text);
+  line-height: 1.4;
+}
+
+.rc-description-block {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.rc-description {
+  font-size: 13px;
+  color: #c8d0d2;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.rc-crop {
+  flex-shrink: 0;
+  border-radius: 3px;
+  border: 1px solid #263238;
+}
+
+/* ── Compact metadata grid ────────────────────── */
+
+.rc-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid #1e282d;
+  border-bottom: 1px solid #1e282d;
+  margin: 4px 0 0 0;
+}
+
+.rc-meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid #1a2328;
+}
+
+.rc-meta-item:nth-child(odd) {
+  padding-right: 20px;
+}
+
+.rc-meta-item:nth-child(even) {
+  padding-left: 20px;
+  border-left: 1px solid #1e282d;
+}
+
+/* If there's an odd last item, span full width */
+.rc-meta-item:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  padding-right: 0;
+}
+
+.rc-meta-item:last-child {
+  border-bottom: none;
+}
+
+/* When only 2 items, remove border on the second row */
+.rc-meta-item:nth-last-child(1):nth-child(2) {
+  border-bottom: none;
+}
+
+.rc-meta-label {
+  font-size: 12px;
+  color: #6b7d82;
+}
+
+.rc-meta-value {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+  text-align: right;
+}
+
+.rc-mono {
+  font-family: "SF Mono", "Cascadia Code", "Consolas", monospace;
+  font-size: 12px;
+  color: #9ba9aa;
+  letter-spacing: 0.3px;
+}
+
+/* ── Divider ──────────────────────────────────── */
+
+.rc-divider {
+  height: 1px;
+  background: #263238;
+  margin: 16px 0 0 0;
+}
+
+/* ── Technical details toggle ─────────────────── */
+
+.rc-tech-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+  margin: 0;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  font-size: 12px;
+  color: #6b7d82;
+  letter-spacing: 0.2px;
+
+  transition: color 0.15s ease;
+}
+
+.rc-tech-toggle:hover {
+  color: var(--accent);
+}
+
+.rc-chevron {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+  transform: rotate(0deg);
+}
+
+.rc-chevron-open {
+  transform: rotate(90deg);
+}
+
+/* ── Technical details body ───────────────────── */
+
+.rc-tech-body {
+  padding-bottom: 4px;
+}
+
+.rc-tech-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 20px;
+  margin-bottom: 10px;
+}
+
+.rc-tech-label {
+  font-size: 12px;
+  color: #6b7d82;
+  padding: 3px 0;
+}
+
+.rc-tech-value {
+  font-size: 12px;
+  color: #9ba9aa;
+  text-align: right;
+  padding: 3px 0;
+}
+
+/* ── Raw output toggle ────────────────────────── */
+
+.rc-raw-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 4px 0 0 0;
+
+  font-size: 11px;
+  color: #546e6e;
+  letter-spacing: 0.2px;
+
+  transition: color 0.15s ease;
+}
+
+.rc-raw-toggle:hover {
+  color: var(--accent);
+}
+
+.rc-raw {
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 3px;
+  background: #0b1114;
+  border: 1px solid #1e282d;
+
+  font-family: "SF Mono", "Cascadia Code", "Consolas", monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #6b7d82;
+  white-space: pre-wrap;
+  word-break: break-all;
+
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+/* ================================
+   Execution Trace (below result)
+   ================================ */
+
+.divider {
+  height: 1px;
+  background: #263238;
+  margin: 16px 0 12px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #6b7d82;
+  margin-bottom: 10px;
+}
+
+.trace-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.trace-list li {
+  display: flex;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.trace-step-num {
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 18px;
+}
+
+.trace-step-label {
+  color: #6b7d82;
+  min-width: 110px;
+}
+
+.trace-step-value {
+  color: #9ba9aa;
+  word-break: break-all;
 }
 
 /* ================================
@@ -463,16 +806,6 @@ button {
    Responsive
    ================================ */
 
-@media (max-width: 1000px) {
-  .app-body {
-    grid-template-columns: 260px 1fr;
-  }
-
-  .app-body > .panel:last-child {
-    display: none;
-  }
-}
-
 @media (max-width: 700px) {
   .app-header {
     padding: 0 16px;
@@ -493,5 +826,9 @@ button {
 
   .panel-center {
     min-height: 400px;
+  }
+
+  .result-below-image {
+    align-self: stretch;
   }
 }

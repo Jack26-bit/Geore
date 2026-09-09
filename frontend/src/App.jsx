@@ -4,9 +4,7 @@ import { analyzeImages } from "./api";
 import UploadPanel from "./components/UploadPanel";
 import QueryBar from "./components/QueryBar";
 import ImageViewer from "./components/ImageViewer";
-import AnswerPanel from "./components/AnswerPanel";
-import ConfidenceBadge from "./components/ConfidenceBadge";
-import ExecutionTrace from "./components/ExecutionTrace";
+import ResultCard from "./components/ResultCard";
 
 
 export default function App() {
@@ -67,14 +65,23 @@ export default function App() {
     <div className="app-layout">
       {/* ── Header ─────────────────────────────────────── */}
       <header className="app-header">
-        <span className="app-wordmark">GEORE</span>
-        <span className="app-wordmark-sub">
-          Remote sensing analysis instrument
-        </span>
+        <div className="header-brand">
+          <img
+            src="/geore-logo.jpg"
+            alt="GEORE logo"
+            className="header-logo"
+          />
+          <div>
+            <span className="app-wordmark">GEORE</span>
+            <span className="app-wordmark-sub">
+              Remote sensing analysis instrument
+            </span>
+          </div>
+        </div>
       </header>
 
 
-      {/* ── Three-pane body ────────────────────────────── */}
+      {/* ── Two-pane body ─────────────────────────────── */}
       <div className="app-body">
         {/* Left: Input deck */}
         <aside className="panel">
@@ -96,7 +103,7 @@ export default function App() {
         </aside>
 
 
-        {/* Center: Image viewer */}
+        {/* Center: Image viewer + results below */}
         <main className="panel-center">
           {loading && <div className="loading-text">Analyzing…</div>}
           {!loading && (
@@ -107,35 +114,21 @@ export default function App() {
               bbox={result?.bbox || null}
             />
           )}
-        </main>
 
-
-        {/* Right: Analysis output */}
-        <aside className="panel">
+          {/* Results rendered below the image */}
           {error && (
-            <div style={{ color: "var(--accent-warm)", fontSize: 13, marginBottom: 12 }}>
-              {error}
-            </div>
+            <div className="result-error">{error}</div>
           )}
           {result && (
-            <>
-              <ConfidenceBadge
-                task={result.task}
-                confidence={result.confidence}
-              />
-              <AnswerPanel answer={result.answer} />
-              <ExecutionTrace trace={result.execution_trace} />
-            </>
-          )}
-          {!result && !error && !loading && (
-            <div style={{ color: "var(--text-muted)", fontSize: 13 }}>
-              Upload an image and run a query to see analysis results here.
+            <div className="result-below-image">
+              <ResultCard result={result} image1Url={image1Url} />
             </div>
           )}
-        </aside>
+        </main>
       </div>
     </div>
   );
     
 }
+
 

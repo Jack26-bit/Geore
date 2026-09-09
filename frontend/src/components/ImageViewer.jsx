@@ -6,6 +6,9 @@ import { useRef, useEffect, useCallback } from "react";
  * The bbox overlay draws progressively over ~400ms (the one bold visual moment).
  * Normalized bbox [x_min, y_min, x_max, y_max] is converted to pixel coords
  * based on rendered image dimensions.
+ *
+ * The canvas is absolutely positioned inside the same position:relative wrapper
+ * as the image so the overlay aligns perfectly.
  */
 export default function ImageViewer({ image1Url, image2Url, image2Label, bbox }) {
   const imgRef = useRef(null);
@@ -21,8 +24,6 @@ export default function ImageViewer({ image1Url, image2Url, image2Label, bbox })
     const rect = img.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
-    canvas.style.width = rect.width + "px";
-    canvas.style.height = rect.height + "px";
 
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -128,7 +129,12 @@ export default function ImageViewer({ image1Url, image2Url, image2Label, bbox })
           alt="Primary satellite image"
           onLoad={drawBbox}
         />
-        {bbox && <canvas ref={canvasRef} />}
+        {bbox && (
+          <canvas
+            ref={canvasRef}
+            className="bbox-canvas"
+          />
+        )}
         <div className="image-label">
           {dual ? "Image 1" : "Primary image"}
         </div>

@@ -26,7 +26,7 @@ Supports **Visual Q&A**, **Grounding**, **Change Detection**, and **Optical–SA
 ### 1. Backend
 
 ```bash
-cd geore_mvp/backend
+cd backend
 
 # Create and populate .env with your API keys
 cp .env.example .env
@@ -41,7 +41,7 @@ Health check: `curl http://localhost:8000/health`
 ### 2. Frontend (separate terminal)
 
 ```bash
-cd geore_mvp/frontend
+cd frontend
 npm install
 npm run dev
 ```
@@ -74,12 +74,3 @@ Multipart form:
 - `has_sar` — boolean (optional, default `false`)
 
 Returns JSON with `answer`, `task`, `bbox`, `confidence`, `execution_trace`.
-
-## Legacy Streamlit UI
-
-The original `app.py` (Streamlit) is still present at the repo root as a fallback:
-
-```bash
-cd geore_mvp
-streamlit run app.py
-```
