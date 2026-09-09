@@ -8,11 +8,11 @@ Supports **Visual Q&A**, **Grounding**, **Change Detection**, and **Optical–SA
 ```
 ┌─────────────────────────────────────────────┐
 │  React frontend (Vite)                      │
-│  localhost:5173                              │
+│  localhost:5173                             │
 │      │                                      │
 │      ▼ POST /analyze                        │
 │  FastAPI backend                            │
-│  localhost:8000                              │
+│  localhost:8000                             │
 │      │                                      │
 │      ├─ router.py      (classify query)     │
 │      ├─ rs_toolkit.py  (NDVI, change, etc.) │
