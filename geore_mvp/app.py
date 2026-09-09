@@ -8,6 +8,12 @@ Demonstrates: VQA, Grounding, Change Detection, Optical–SAR Fusion.
 import json
 import time
 import numpy as np
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent / "backend"))
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent / "backend"))
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
