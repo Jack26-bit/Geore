@@ -1,372 +1,497 @@
-
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+/* ================================
+   GEORE - Main Theme
+   ================================ */
 
 :root {
-  --bg: #ffffff;
-  --soft: #f7f7f8;
-  --border: #e5e5e5;
-  --text: #2d2d2d;
-  --muted: #777;
-  --green: #356f61;
-  --green-dark: #244f45;
-  --font: 'DM Sans', sans-serif;
+  --bg-main: #0b1114;
+  --bg-panel: #10191d;
+  --bg-card: #152126;
+  --bg-input: #0d161a;
+
+  --border: #2a3b40;
+  --border-light: #3a5056;
+
+  --text: #f2f5f4;
+  --text-muted: #9ba9aa;
+
+  --accent: #8fe3c2;
+  --accent-hover: #a6efd1;
+  --accent-dark: #16352d;
+
+  --accent-warm: #ff8f8f;
+
+  --radius: 8px;
+  --transition: 0.2s ease;
+
+  font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ================================
+   Reset
+   ================================ */
 
 * {
   box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
   margin: 0;
-  padding: 0;
 }
 
 body {
-  background: var(--bg);
+  background: var(--bg-main);
   color: var(--text);
-  font-family: var(--font);
 }
 
-/* APP */
+/* ================================
+   Main App
+   ================================ */
 
-.app {
+.app-layout {
   min-height: 100vh;
-  background: #fff;
+  width: 100%;
+  background: var(--bg-main);
 }
 
-/* HEADER */
+/* ================================
+   Header
+   ================================ */
 
 .app-header {
-  height: 60px;
-  padding: 0 28px;
+  height: 64px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  padding: 0 28px;
+
+  background: #0d1518;
   border-bottom: 1px solid var(--border);
 }
 
 .app-wordmark {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 3px;
 }
 
-.app-subtitle {
-  color: var(--muted);
-  font-size: 12px;
+.app-wordmark-sub {
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
-/* MAIN */
+/* ================================
+   Three Panel Layout
+   ================================ */
 
-.chat-page {
-  width: 100%;
-  max-width: 850px;
-  min-height: calc(100vh - 60px);
-  margin: 0 auto;
-  padding: 55px 25px 40px;
+.app-body {
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  min-height: calc(100vh - 64px);
 }
 
-/* WELCOME */
+/* ================================
+   Left / Right Panels
+   ================================ */
 
-.welcome {
-  text-align: center;
-  margin-top: 100px;
-  margin-bottom: 45px;
+.panel {
+  padding: 24px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
 }
 
-.welcome-mark {
-  width: 42px;
-  height: 42px;
-  margin: 0 auto 20px;
+.panel:last-child {
+  border-right: none;
+  border-left: 1px solid var(--border);
+}
+
+/* ================================
+   Center Panel
+   ================================ */
+
+.panel-center {
+  position: relative;
+  min-width: 0;
+  background: #0c1418;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 50%;
-  background: var(--green);
-  color: white;
+  padding: 30px;
+}
 
-  font-size: 20px;
+/* ================================
+   Upload Panel
+   ================================ */
+
+.upload-panel {
+  width: 100%;
+}
+
+.upload-panel > label:first-child,
+.upload-panel > label:nth-of-type(2) {
+  display: block;
+  margin-bottom: 10px;
+
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.upload-panel > label:nth-of-type(2) {
+  margin-top: 22px;
+}
+
+
+/* ================================
+   Upload Boxes
+   ================================ */
+
+.upload-box {
+  width: 100%;
+  min-height: 110px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px 12px;
+
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius);
+
+  background: var(--bg-card);
+  color: var(--text-muted);
+  text-align: center;
+
+  cursor: pointer;
+  transition: var(--transition);
+  outline: none;
+}
+
+.upload-box:hover,
+.upload-box:focus-visible,
+.upload-box.is-dragging {
+  border-color: var(--accent);
+  background: #18282a;
+  box-shadow: 0 0 0 1px rgba(143, 227, 194, 0.18);
+}
+
+.upload-box.has-file {
+  border-style: solid;
+  background: rgba(143, 227, 194, 0.04);
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.upload-arrow {
+  font-size: 18px;
+  color: var(--accent);
+  line-height: 1;
   font-weight: 700;
 }
 
-.welcome h1 {
-  margin-bottom: 12px;
-  font-size: 30px;
+.upload-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: var(--text);
+}
+
+.upload-format,
+.upload-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.file-name-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  max-width: 100%;
+  margin-top: 2px;
+}
+
+.upload-file-icon {
+  font-size: 12px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.file-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 12px;
+  color: var(--accent);
   font-weight: 600;
 }
 
-.welcome p {
-  color: var(--muted);
-  font-size: 14px;
+.upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-/* COMPOSER */
-
-.composer-area {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-/* UPLOAD BUTTONS */
-
-.upload-options {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.upload-button {
-  padding: 7px 12px;
-
-  border: 1px solid var(--border);
-  border-radius: 8px;
-
-  background: white;
-  color: #555;
-
-  font-family: var(--font);
-  font-size: 12px;
-
-  cursor: pointer;
-}
-
-.upload-button:hover {
-  background: var(--soft);
-}
-
-.upload-button.selected {
-  border-color: var(--green);
-  color: var(--green);
-}
-
-.upload-options input[type="file"] {
-  display: none;
-}
+/* ================================
+   SAR Option
+   ================================ */
 
 .sar-option {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 
-  color: var(--muted);
-  font-size: 11px;
+  margin-top: 14px;
+
+  color: var(--text-muted);
+  font-size: 12px;
 }
 
-/* QUERY */
+.sar-option input {
+  accent-color: var(--accent);
+}
 
-.query-area {
-  position: relative;
+/* ================================
+   Query Section
+   ================================ */
+
+.query-bar {
   width: 100%;
+  margin-top: 24px;
 }
 
-.query-input {
+.query-bar label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* ================================
+   Query Textarea
+   ================================ */
+
+.query-bar textarea {
   width: 100%;
   min-height: 105px;
-  padding: 17px 55px 17px 17px;
 
-  border: 1px solid #d9d9d9;
-  border-radius: 14px;
+  display: block;
 
-  background: white;
-  color: var(--text);
+  padding: 14px;
 
-  font-family: var(--font);
-  font-size: 14px;
-  line-height: 1.5;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 
-  resize: none;
   outline: none;
 
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background: var(--bg-input);
+  color: var(--text);
+
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+
+  resize: vertical;
 }
 
-.query-input:focus {
-  border-color: #bcbcbc;
+.query-bar textarea:focus {
+  border-color: var(--accent);
 }
 
-.query-input::placeholder {
-  color: #999;
+.query-bar textarea::placeholder {
+  color: #6f7e80;
 }
 
-/* SEND */
+/* ================================
+   RUN ANALYSIS BUTTON
+   ================================ */
 
-.send-button {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
+.query-bar button {
+  width: 100%;
 
-  width: 32px;
-  height: 32px;
+  display: block;
+
+  margin-top: 12px;
+  padding: 14px 18px;
 
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius);
 
-  background: var(--green);
-  color: white;
+  background: var(--accent);
+  color: #10201b;
 
-  font-size: 19px;
-  line-height: 1;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
 
   cursor: pointer;
+
+  transition: var(--transition);
 }
 
-.send-button:hover:not(:disabled) {
-  background: var(--green-dark);
+.query-bar button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
 }
 
-.send-button:disabled {
-  background: #d0d0d0;
+.query-bar button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.query-bar button:disabled {
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
-/* IMAGE */
+/* ================================
+   Loading
+   ================================ */
 
-.image-section {
-  width: 100%;
-  margin-bottom: 30px;
-
-  display: flex;
-  justify-content: center;
+.loading-text {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.image-viewer-container {
+/* ================================
+   Image Viewer
+   ================================ */
+
+.image-viewer {
+  width: 100%;
+  height: 100%;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 18px;
-  width: 100%;
+  justify-content: center;
 }
 
-.image-viewer-container.dual {
-  flex-direction: row;
-}
+.image-viewer img {
+  max-width: 50%;
+  max-height: 45vh;
 
-.image-frame {
-  width: 300px;
-  padding: 5px;
-
-  border: 1px solid var(--border);
-  border-radius: 10px;
-
-  background: white;
-}
-
-.image-frame img {
-  display: block;
-  width: 100%;
-  height: 240px;
   object-fit: contain;
+
   border-radius: 6px;
 }
 
-.image-label {
-  padding: 7px 0 3px;
+/* ================================
+   Empty Image Area
+   ================================ */
 
-  color: var(--muted);
-  font-size: 11px;
-  text-align: center;
-}
+.image-placeholder {
+  width: min(500px, 90%);
+  min-height: 150px;
 
-.empty-viewer {
-  width: 300px;
-  padding: 50px 20px;
-
-  border: 1px dashed #ccc;
-  border-radius: 12px;
-
-  color: var(--muted);
-  text-align: center;
-  font-size: 13px;
-}
-
-/* THINKING */
-
-.thinking {
-  margin-top: 20px;
-
-  color: var(--muted);
-  font-size: 13px;
-  text-align: center;
-}
-
-/* ANSWER */
-
-.answer-section {
-  width: 100%;
-  max-width: 700px;
-  margin: 30px auto;
-
-  padding: 20px 0;
-
-  border-top: 1px solid var(--border);
-}
-
-.answer-heading {
-  margin-bottom: 15px;
-
-  color: var(--green);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.answer-text {
-  line-height: 1.7;
-}
-
-.badge-row {
   display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-}
+  align-items: center;
+  justify-content: center;
 
-.badge {
-  padding: 4px 8px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
 
-  border: 1px solid #c9ddd7;
-  border-radius: 6px;
-
-  color: var(--green);
-  font-size: 10px;
-}
-
-.error-message {
-  margin: 20px auto;
-  color: #a85d35;
-  text-align: center;
+  color: var(--text-muted);
   font-size: 13px;
+  text-align: center;
 }
 
-/* MOBILE */
+/* ================================
+   Right Analysis Panel
+   ================================ */
+
+.panel-center + .panel {
+  color: var(--text);
+}
+
+/* ================================
+   General Buttons
+   ================================ */
+
+button {
+  font-family: inherit;
+}
+
+/* ================================
+   Scrollbar
+   ================================ */
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 10px;
+}
+
+/* ================================
+   Responsive
+   ================================ */
+
+@media (max-width: 1000px) {
+  .app-body {
+    grid-template-columns: 260px 1fr;
+  }
+
+  .app-body > .panel:last-child {
+    display: none;
+  }
+}
 
 @media (max-width: 700px) {
-  .chat-page {
-    padding: 35px 15px;
+  .app-header {
+    padding: 0 16px;
   }
 
-  .welcome {
-    margin-top: 70px;
+  .app-wordmark-sub {
+    display: none;
   }
 
-  .welcome h1 {
-    font-size: 25px;
+  .app-body {
+    display: block;
   }
 
-  .upload-options {
-    flex-wrap: wrap;
+  .panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
   }
 
-  .image-viewer-container,
-  .image-viewer-container.dual {
-    flex-direction: column;
-  }
-
-  .image-frame {
-    width: 260px;
-  }
-
-  .image-frame img {
-    height: 210px;
+  .panel-center {
+    min-height: 400px;
   }
 }

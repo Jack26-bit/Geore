@@ -1,4 +1,3 @@
-
 export default function QueryBar({
   query,
   onQueryChange,
@@ -7,29 +6,22 @@ export default function QueryBar({
   loading,
 }) {
   return (
-    <div className="query-area">
+    <div className="query-bar">
+      <label>Query</label>
+
       <textarea
-        className="query-input"
-        placeholder="Ask anything about your satellite imagery..."
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey && !disabled) {
-            e.preventDefault();
-            onRun();
-          }
-        }}
+        placeholder="What do you see in this image?"
       />
 
       <button
-        className="send-button"
+        type="button"
         onClick={onRun}
         disabled={disabled || loading}
-        aria-label="Run analysis"
       >
-        ↑
+        {loading ? "Analyzing..." : "Run analysis"}
       </button>
     </div>
   );
 }
-
