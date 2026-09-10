@@ -5,3 +5,11 @@ __pycache__/
 *.pyc
 .env
 node_modules/
+
+backend/.sessions/
+backend/backend/
+*.pdf
+__pycache__/
+*.pyc
+.env
+node_modules/
