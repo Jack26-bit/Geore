@@ -11,6 +11,7 @@ export default function App() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [hasSar, setHasSar] = useState(false);
+  const [location, setLocation] = useState("");
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -28,7 +29,7 @@ export default function App() {
   );
 
 
-  const canRun = !!image1 && query.trim().length > 0;
+  const canRun = (!!image1 || location.trim().length > 0) && query.trim().length > 0;
 
 
   async function handleRun() {
@@ -41,7 +42,8 @@ export default function App() {
 
 
     const fd = new FormData();
-    fd.append("image1", image1);
+    if (image1) fd.append("image1", image1);
+    if (location) fd.append("location", location.trim());
     fd.append("query", query.trim());
     if (image2) fd.append("image2", image2);
     fd.append("has_sar", hasSar.toString());
@@ -89,9 +91,11 @@ export default function App() {
             image1={image1}
             image2={image2}
             hasSar={hasSar}
+            location={location}
             onImage1={setImage1}
             onImage2={setImage2}
             onSarToggle={setHasSar}
+            onLocation={setLocation}
           />
           <QueryBar
             query={query}
@@ -105,7 +109,7 @@ export default function App() {
 
         {/* Center: Image viewer + results below */}
         <main className="panel-center">
-          {loading && <div className="loading-text">Analyzing…</div>}
+          {loading && <div className="loading-text">Analyzing… (GEE fetching can take 15+ seconds)</div>}
           {!loading && (
             <ImageViewer
               image1Url={image1Url}
@@ -128,7 +132,4 @@ export default function App() {
       </div>
     </div>
   );
-    
 }
-
-

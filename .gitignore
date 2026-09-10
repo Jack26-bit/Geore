@@ -1,13 +1,15 @@
-# secrets
-.env
-
-# python
+backend/.sessions/
+backend/backend/
+*.pdf
 __pycache__/
 *.pyc
-
-# node
+.env
 node_modules/
-dist/
 
-# legacy
-.streamlit/
+backend/.sessions/
+backend/backend/
+*.pdf
+__pycache__/
+*.pyc
+.env
+node_modules/
