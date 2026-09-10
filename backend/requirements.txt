@@ -12,3 +12,5 @@ python-dotenv>=1.0.0
 earthengine-api
 geopy
 requests
+earthengine-api>=1.7.0
+requests>=2.31.0
