@@ -64,13 +64,10 @@ def compute_ndvi(optical_array: np.ndarray) -> np.ndarray:
         red = arr[:, :, RED]
     else:
         # RGB fallback: approximate with Green and Red
-        green = arr[:, :, 1]
-        red = arr[:, :, 0] if arr.shape[2] == 3 else arr[:, :, 2]
         # For PIL-loaded RGB images: channel order is R=0, G=1, B=2
         red = arr[:, :, 0]
         green = arr[:, :, 1]
         nir = green  # Proxy: green channel as NIR surrogate
-        red = red
 
     return _safe_ratio(nir, red)
 
@@ -101,12 +98,9 @@ def compute_ndwi(optical_array: np.ndarray) -> np.ndarray:
     else:
         # RGB fallback: Blue vs Green as water proxy
         # PIL RGB order: R=0, G=1, B=2
-        blue = arr[:, :, 2]
-        green = arr[:, :, 1]
-        nir = green
-        green = blue
-
-    return _safe_ratio(green, nir)
+        water_band = arr[:, :, 2]  # Blue
+        background_band = arr[:, :, 1]  # Green
+        return _safe_ratio(water_band, background_band)
 
 
 # ── Change Detection ─────────────────────────────────────────────────────────
@@ -261,6 +255,19 @@ def compute_fusion_stats(
         "vegetation_pct": vegetation_pct,
         "water_pct": water_pct,
         "agreement_pct": agreement_pct,
+    }
+
+def get_toolkit_info() -> Dict[str, Any]:
+    """Return remote-sensing toolkit metadata and supported operations."""
+    return {
+        "version": "1.1.0",
+        "supported_indices": ["NDVI", "NDWI", "ChangeDetection", "OpticalSARFusion"],
+        "default_thresholds": {
+            "change_diff": 0.15,
+            "sar_high": 0.6,
+            "ndvi_veg": 0.2,
+            "ndwi_water": 0.1,
+        },
     }
 
 
